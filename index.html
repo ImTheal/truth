@@ -127,7 +127,7 @@
                 
                 // Afficher la réponse
                 responseDiv.style.display = 'block';
-                responseDiv.textContent = typeof data === 'object' ? data.rep || JSON.stringify(data) : data;
+                responseDiv.textContent = data[0].Réponse
                 
             } catch (error) {
                 console.error('Erreur lors de l\'appel au webhook:', error);
