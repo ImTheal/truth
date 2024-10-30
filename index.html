@@ -127,7 +127,8 @@
                 
                 // Afficher la réponse
                 responseDiv.style.display = 'block';
-                responseDiv.innerHTML = data.res
+                const paragraphs = data.res.split('\n').map(line => `<p>${line}</p>`).join('');
+                responseDiv.innerHTML = paragraphs;
                 
             } catch (error) {
                 console.error('Erreur lors de l\'appel au webhook:', error);
