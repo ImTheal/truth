@@ -21,6 +21,7 @@
         .search-container {
             display: flex;
             gap: 10px;
+            margin-bottom: 20px;
         }
         
         input[type="text"] {
@@ -44,6 +45,37 @@
         button:hover {
             background-color: #333;
         }
+
+        #response {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+            min-height: 50px;
+            display: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #333;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loader-container {
+            display: none;
+            align-items: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -54,12 +86,29 @@
         <button onclick="handleSearch()">Chercher</button>
     </div>
 
+    <div class="loader-container" id="loader">
+        <div class="loading"></div>
+        <span>Chargement de la réponse...</span>
+    </div>
+
+    <div id="response"></div>
+
     <script>
         async function handleSearch() {
             const searchInput = document.getElementById('searchInput');
+            const responseDiv = document.getElementById('response');
+            const loader = document.getElementById('loader');
             const searchQuery = searchInput.value;
             
-            // Appel au webhook
+            if (!searchQuery.trim()) {
+                alert('Veuillez entrer une question');
+                return;
+            }
+
+            // Afficher le loader
+            loader.style.display = 'flex';
+            responseDiv.style.display = 'none';
+            
             try {
                 const response = await fetch('https://n8n.tambour.in/webhook-test/1c168a7d-afd5-4861-97d8-e1991a3dc717', {
                     method: 'POST',
@@ -72,14 +121,28 @@
                 });
                 
                 const data = await response.json();
-                console.log('Réponse du webhook:', data);
                 
-                // Vous pouvez ajouter ici le code pour traiter la réponse
+                // Cacher le loader
+                loader.style.display = 'none';
+                
+                // Afficher la réponse
+                responseDiv.style.display = 'block';
+                responseDiv.textContent = typeof data === 'object' ? data.rep || JSON.stringify(data) : data;
                 
             } catch (error) {
                 console.error('Erreur lors de l\'appel au webhook:', error);
+                loader.style.display = 'none';
+                responseDiv.style.display = 'block';
+                responseDiv.textContent = 'Une erreur est survenue lors de la recherche. Veuillez réessayer.';
             }
         }
+
+        // Permettre l'envoi avec la touche Entrée
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
     </script>
 </body>
 </html>
