@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page de recherche</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -127,8 +128,8 @@
                 
                 // Afficher la réponse
                 responseDiv.style.display = 'block';
-                const paragraphs = data.res.split('\n').map(line => `<p>${line}</p>`).join('');
-                responseDiv.innerHTML = paragraphs;
+                const reponse = data.res
+                responseDiv.innerHTML = marked(reponse);
                 
             } catch (error) {
                 console.error('Erreur lors de l\'appel au webhook:', error);
