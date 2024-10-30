@@ -127,7 +127,7 @@
                 
                 // Afficher la réponse
                 responseDiv.style.display = 'block';
-                responseDiv.innerText = data.res
+                responseDiv.innerHTML = data.res
                 
             } catch (error) {
                 console.error('Erreur lors de l\'appel au webhook:', error);
