@@ -130,14 +130,15 @@
                 responseDiv.innerText = data.res
                 
             } catch (error) {
+                if (typeof error === jsonError) {
+                    console.error('Erreur de parsing JSON:', jsonError);
+                    responseDiv.innerText = 'Réponse invalide du serveur.';
+                }
                 console.error('Erreur lors de l\'appel au webhook:', error);
                 loader.style.display = 'none';
                 responseDiv.style.display = 'block';
                 responseDiv.textContent = 'Une erreur est survenue lors de la recherche. Veuillez réessayer.';
-            } catch (jsonError) {
-                console.error('Erreur de parsing JSON:', jsonError);
-                responseDiv.innerText = 'Réponse invalide du serveur.';
-            }
+            } 
         }
 
         // Permettre l'envoi avec la touche Entrée
