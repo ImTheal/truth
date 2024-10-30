@@ -129,6 +129,9 @@
                 // Afficher la réponse
                 responseDiv.style.display = 'block';
                 const reponse = data.res
+                console.log(data.res)
+                console.log("-------------")
+                console.log(reponse)
                 responseDiv.innerHTML = marked(reponse);
                 
             } catch (error) {
