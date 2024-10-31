@@ -132,7 +132,7 @@
                 console.log(data.res)
                 console.log("-------------")
                 console.log(reponse)
-                responseDiv.innerHTML = marked(reponse);
+                responseDiv.innerHTML = reponse.replace(/[\x00-\x1F\x7F-\x9F]/g, '');
                 
             } catch (error) {
                 console.error('Erreur lors de l\'appel au webhook:', error);
